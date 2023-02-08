@@ -1,7 +1,8 @@
 export const MessagesHelper = {
   PASSWORD_VALID:
-    'A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais.',
-  PASSWORD_OR_EMAIL_INVALID: 'E-mail e/ou senha inválidos.',
-  USER_NOT_FOUND: 'Nenhum usuário encontrado.',
-  EXISTING_USER: 'Esse usuário (e-mail) já foi cadastrado.',
+    'The password must include uppercase and lowercase letters numbers and symbols.',
+  PASSWORD_OR_EMAIL_INVALID: 'incorrect username or password',
+  USER_NOT_FOUND: "User's not found",
+  EXISTING_USERNAME: 'Username already exist. Please try with another one.',
+  EXISTING_EMAIL: 'Email already exist. Please try with another one.',
 };
