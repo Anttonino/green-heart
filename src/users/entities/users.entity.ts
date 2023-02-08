@@ -1,43 +1,46 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { IsEmail, IsNotEmpty, Matches, MinLength } from "class-validator";
+import { Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { Posting } from "../../posting/entities/posting.entity";
+import { RegExHelper } from "../../helpers/regex.helper"
+import { MessagesHelper } from "../../helpers/messages.helpers";
 
-@Entity ({name: "users_tb"})
+@Entity({ name: "users_tb" })
 export class User {
 
-    @PrimaryGeneratedColumn ()
+    @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     public id: number
 
-    @IsNotEmpty ()
-    @Column ({ length: 255 , nullable: false })
+    @IsNotEmpty()
+    @Column({ nullable: false })
     @ApiProperty()
     public name: string
 
-    @IsNotEmpty ()
-    @Column ({ length: 255 , nullable: false })
+    @IsNotEmpty()
+    @Column({ length: 255, nullable: false })
     @ApiProperty()
     public username: string
 
-    @IsEmail ()
-    @Column ({ length: 255})
-    @ApiProperty()
+    @IsNotEmpty()
+    @IsEmail()
+    @Column({ nullable: false, unique: true })
+    @ApiProperty({ example: 'email@email.com.br' })
     public email: string
 
-    @IsNotEmpty ()
-    @MinLength (8)
-    @Column ({ length: 255, nullable: false })
+    @IsNotEmpty()
+    @Matches(RegExHelper.password, { message: MessagesHelper.PASSWORD_VALID })
+    @Column({ nullable: false })
     @ApiProperty()
     public password: string
 
-    @Column ({ length: 5000, default: '' })
+    @Column({ length: 5000, default: 'default.jpg' })
     @ApiProperty()
     public photo: string
 
     @ApiProperty()
-    @OneToMany (() => Posting , (posting)  => posting.user)
-    posting: Posting []
-
+    @OneToMany(() => Posting, (posting) => posting.user)
+    @JoinTable()
+    posting: Posting[]
 }
